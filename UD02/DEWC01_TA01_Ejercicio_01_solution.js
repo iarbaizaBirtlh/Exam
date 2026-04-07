@@ -18,30 +18,25 @@ const rl = readline.createInterface({
 });
 
 rl.question('Introduce el primer número: ', (n1) => {
+    let num1 = parseInt(n1);
     rl.question('Introduce el segundo número: ', (n2) => {
-        rl.question('Elige la operación (+, -, *, /): ', (operacion) => {
-            const num1 = parseInt(n1);
-            const num2 = parseInt(n2);
-            let result;
-            op = operacion;
+        let num2 = parseInt(n2);
+        rl.question('Elige la operación (+, -, *, /): ', (op) => {
+            operando = op;
+            let resultado;
 
-            switch (op) {
+            switch (operando) {
                 case '+':
-                    result = num1 + num2;
+                    resultado = num1 + num2;
                     break;
                 case '-':
-                    result = num1 - num2;
+                    resultado = num1 - num2;
                     break;
                 case '*':
-                    result = num1 * num2;
+                    resultado = num1 * num2;
                     break;
                 case '/':
-                    if (num2 !== 0) {
-                        result = num1 / num2;
-                    } else {
-                        result = "Error: No se puede dividir entre 0";
-                    }
-                    break;
+                    resultado = num1 / num2;
                 default:
                     result = "Operación no válida";
                     break;
