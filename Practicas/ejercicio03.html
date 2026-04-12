@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>📘 Ejercicio de Examen 3: Sistema de Votaciones (Bucles, Condicionales y Switch)</h4>
+    <p><b>Objetivo:</b> Control de flujo avanzado y lógica de programación.</p>
+    <p><b>Descripción:</b> Desarrolla un script para contabilizar los votos de unas elecciones con 3 candidatos (A, B y C).</p>
+    <p>
+        1. Crea un array vacío llamado votos.<br>
+        2. Simula la entrada de votos generando 20 números aleatorios entre 1 y 4 (usando Math.random()).
+            <ol>1 = Voto para A</ol>
+            <ol>2 = Voto para B</ol>
+            <ol>3 = Voto para C</ol>
+            <ol>4 = Voto nulo</ol><br>
+        3. Usa un bucle for para rellenar el array votos con estos números generados.<br>
+        4. Recorre el array de votos y utiliza una estructura switch para ir sumando los votos en variables contadoras independientes (votosA, votosB, votosC, nulos).<br>
+        5. Al final, utiliza condicionales if-else para determinar qué candidato tiene más votos e imprime por consola el ganador y el recuento total.<br>
+    </p>
+    <br><br>
+
+    <script>
+        console.log("=== EJERCICIO 3: Votaciones ===");
+        let votos = new Array();
+
+        for (let i = 0; i < 20; i++) {
+            let numeroAleatorio = parseInt(Math.random() * 4) + 1; 
+            votos.push(numeroAleatorio);
+        }
+
+        let votosA = 0;
+        let votosB = 0;
+        let votosC = 0;
+        let nulos = 0;
+
+        for (let k = 0; k < votos.length; k++) {
+            switch (votos[k]) {
+                case 1:
+                    votosA++;
+                    break;
+                case 2:
+                    votosB++;
+                    break;
+                case 3:
+                    votosC++;
+                    break;
+                case 4:
+                    nulos++;
+                    break;
+            }
+        }
+
+        console.log("Resultados -> A: " + votosA + ", B: " + votosB + ", C: " + votosC + " (Nulos: " + nulos + ")");
+
+        if (votosA > votosB && votosA > votosC) {
+            console.log("¡El candidato A gana las elecciones!");
+        } else if (votosB > votosA && votosB > votosC) {
+            console.log("¡El candidato B gana las elecciones!");
+        } else if (votosC > votosA && votosC > votosB) {
+            console.log("¡El candidato C gana las elecciones!");
+        } else {
+            console.log("Ha habido un empate entre los más votados.");
+        }
+        console.log();
+    </script>
+</body>
+</html>

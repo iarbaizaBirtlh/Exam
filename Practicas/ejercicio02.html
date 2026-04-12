@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>📘 Ejercicio de Examen 2: Control de Gastos Personales (DOM básico, Eventos y Arrays)</h4>
+    <p><b>Objetivo:</b> Capturar eventos del HTML, leer valores de inputs, instanciar objetos y guardar históricos.</p>
+    <p><b>Descripción:</b> Crea una interfaz HTML muy básica con 3 inputs: "Concepto" (texto), "Cantidad" (número) y "Tipo" (ingreso o gasto). Añade un botón "Registrar".</p>
+    <p>
+        1. En tu archivo .js, crea un array global vacío llamado historialMovimientos.<br>
+        2. Crea una función que se ejecute en el evento onclick del botón.<br>
+        3. Dentro de la función, utiliza document.getElementById('id').value para recoger los datos de los 3 inputs.<br>
+        4. Crea un objeto literal o instanciado con esos datos y añádelo al array historialMovimientos usando .push().<br>
+        5. Utiliza una estructura iterativa (como for...of) para recorrer el array y calcular el saldo total (sumando si es ingreso, restando si es gasto).<br>
+        6. Imprime el saldo total en una etiqueta <p> del HTML utilizando .innerText.
+    </p>
+    <br><br>
+    <input type="text" id="concepto" placeholder="Ej: Supermercado">
+    <input type="text" id="cantidad" placeholder="Ej: 50">
+    <input type="text" id="tipo" placeholder="ingreso o gasto">
+    <button type="button" onclick="registrarMovimiento()">Registrar</button>
+
+    <p>Saldo Total: <span id="saldoTotal">0</span> €</p>
+
+    <script>
+        console.log("=== EJERCICIO 2: Gastos Personales ===");
+        let historialMovimientos = new Array(); 
+
+        function registrarMovimiento() {
+            let conceptoInput = document.getElementById('concepto').value;
+            let cantidadInput = parseInt(document.getElementById('cantidad').value);
+            let tipoInput = document.getElementById('tipo').value;
+
+            let movimiento = {
+                concepto: conceptoInput,
+                cantidad: cantidadInput,
+                tipo: tipoInput
+            };
+            
+            historialMovimientos.push(movimiento);
+
+            let saldo = 0;
+            for (let i = 0; i < historialMovimientos.length; i++) {
+                if (historialMovimientos[i].tipo === "ingreso") {
+                    saldo += historialMovimientos[i].cantidad;
+                } else if (historialMovimientos[i].tipo === "gasto") {
+                    saldo -= historialMovimientos[i].cantidad;
+                }
+            }
+
+            document.getElementById('saldoTotal').innerText = saldo;
+            console.log("Movimiento registrado. Historial:", historialMovimientos);
+        }
+    </script>
+</body>
+</html>

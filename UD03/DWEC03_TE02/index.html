@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SNAKE</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="icon" type="image/png" href="img/icono.png">
+</head>
+<body>
+
+  <div id="app-container">
+    <section id="login-screen" class="screen active">
+      <img src="img/title.png" alt="SNAKE Logo" class="logo-image">
+      <div class="card">
+        <h2>Usuario</h2>
+        <input type="text" id="username-input" placeholder="Nombre usuario">
+        <h2>Contraseña</h2>
+        <input type="password" id="password-input" placeholder="Contraseña">
+        <button id="login-button" class="btn-primary">Log In</button>
+        <p id="login-error" class="error-message"></p>
+      </div>
+    </section>
+
+    <section id="welcome-screen" class="screen">
+      <img src="img/title.png" alt="SNAKE Logo" class="logo-image">
+      <div class="main-welcome-content"> 
+        <div id="controls-content" class="side-content">
+          <h3>Controles del Juego</h3>
+          <p>Muévete con:</p>
+          <ul class="key-list">
+            <li><span class="key-arrow">▲</span> Arriba</li>
+            <li><span class="key-arrow">▼</span> Abajo</li>
+            <li><span class="key-arrow">◀</span> Izquierda</li>
+            <li><span class="key-arrow">▶</span> Derecha</li>
+          </ul>
+        </div>
+        <div class="center-content">
+          <h1>¡¡Bienvenid@ a Snake!!</h1>
+          <p>Come tanto como puedas para crecer y conseguir la máxima puntuación.</p>
+          <p>Evita chocar... ¡o la partida habrá terminado!</p>
+          <div class="interaction-buttons">
+            <button id="show-controls-button" class="btn-secondary">Controles</button>
+            <button id="show-info-button" class="btn-secondary">¿Cómo se juega?</button>
+          </div>
+          <div class="level-selection">
+            <h3>Selecciona el Nivel:</h3>
+            <select id="level-select">
+              <option value="Principiante">Principiante</option>
+              <option value="Intermedio" selected>Intermedio</option>
+              <option value="Avanzado">Avanzado</option>
+            </select>
+          </div>
+          <button id="start-game-button" class="btn-primary">¡Comenzar partida!</button>
+        </div>
+        <div id="info-content" class="side-content">
+          <h3>Objetivo y Reglas</h3>
+          <div>
+            <p>El objetivo es controlar a la serpiente 🐍 para comer la fruta 🍎 y evitar chocar contra los bodes o contra ti mismo.</p>
+            <p>Cada fruta te hace crecer y te da puntos, lo que hace que sea mas dificil controlarla</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="game-screen" class="screen">
+      <img src="img/title.png" alt="SNAKE Logo" class="logo-image-game"> 
+      <div id="centered-game-content">
+        <div id="game-info-container">
+          <div class="info-row">
+            <div id="score-box" class="info-box">
+              <span id="score-display" class="info-value">🍎 0</span>
+            </div>
+            <div id="top-score-box" class="info-box">
+              <span id="top-score-display" class="info-value">🏆 0</span>
+            </div>
+            <div id="level-box" class="info-box">
+              <span class="info-label">Nivel</span>
+              <span id="level-stars" class="info-value">🩶⭐⭐</span>
+            </div>
+          </div>
+
+          <div class="info-row timer-row">
+            <span id="timer-display">Tiempo restante: 30 segundos</span>
+          </div>
+        </div>
+
+        <div id="game-area">
+          <canvas id="snake-canvas"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section id="results-screen" class="screen">
+      <img src="img/title.png" alt="SNAKE Logo" class="logo-image">
+      <div class="card result-card">
+          <h2 id="result-title"></h2>
+          <p id="result-message"></p>
+          <div class="result-summary">
+              <p>⚔️ Nivel: <strong id="final-level"></strong></p>
+              <p>📊 Puntuación final: <strong id="final-score"></strong></p>
+              <p>⏱️ Tiempo jugado: <strong id="time-played"></strong> segundos</p>
+              <p>🏆 Máx. Puntuación Nivel: <strong id="level-top-score"></strong></p> 
+          </div>
+          <button id="restart-button" class="btn-primary">Jugar de nuevo</button>
+          <button id="logout-button" class="btn-secondary">Salir</button>
+      </div>
+    </section>
+
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

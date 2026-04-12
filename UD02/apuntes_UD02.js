@@ -39,7 +39,7 @@ let numATexto = "" + 50;
 console.log("--- Conversion de tipos: ---");
 console.log(typeof numString + ' -> ' + numString);
 console.log("Transforma a Int con parseInt(): " + convertidoInt);
-console.log("Transforma a Int con parseFloat(): " + convertidoFloat);
+console.log("Transforma a Float con parseFloat(): " + convertidoFloat);
 console.log("Transforma Int a String con '' + 50: " + typeof numATexto + ' -> ' + numATexto);
 console.log();
 
@@ -267,11 +267,11 @@ let letras = ["a", "b", "c", "d"];
 console.log("--- Métodos: ---");
 console.log(letras);
 console.log("join('-') (une en string):", letras.join("-"));      // a-b-c-d
-console.log("reverse() (invierte):", letras.reverse());        // d,c,b,a
-console.log("sort() (ordena):", letras.sort());               // a,b,c,d
+console.log("reverse() (invierte):", letras.reverse());           // d,c,b,a
+console.log("sort() (ordena):", letras.sort());                   // a,b,c,d
 console.log("slice(1,3) (sub-array 1 a 3):", letras.slice(1,3));  // b,c (no toca original)
-console.log("concat(['e', 'f']):", letras.concat(["e", "f"]));          // une arrays
-console.log("toString():", letras.toString());                 // convierte a string
+console.log("concat(['e', 'f']):", letras.concat(["e", "f"]));    // une arrays
+console.log("toString():", letras.toString());                    // convierte a string
 console.log();
 
 // =======================
@@ -471,19 +471,4 @@ getUTCFullYear()	Devuelve el año en base a la hora UTC (4 dígitos).
 setDate()	Ajusta el día del mes del objeto (de 1-31).
 setFullYear()	Ajusta el año del objeto (4 dígitos).
 setHours()	Ajusta la hora del objeto (de 0-23).
- */
-
-
-
-/* // =======================
-// 🌐 DOM BÁSICO
-// =======================
-document.write("<h2>Chuleta JS funcionando</h2>");
-document.write("Texto: " + texto + "<br>");
-document.write("Número: " + numero + "<br>");
-
-// =======================
-// 🎯 RESUMEN FINAL
-// =======================
-console.log("Chuleta COMPLETA JS lista 🚀");
  */

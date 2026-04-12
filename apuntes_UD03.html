@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Unidad 2: Objetos de Alto Nivel</title>
+    <style>
+        body { font-family: sans-serif; line-height: 1.6; padding: 20px; background-color: #f4f4f4; }
+        h1, h2 { color: #2c3e50; border-bottom: 2px solid #2c3e50; }
+        .section { background: white; padding: 15px; margin-bottom: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        button { background: #3498db; color: white; border: none; padding: 8px 15px; cursor: pointer; border-radius: 4px; margin: 5px 0; }
+        button:hover { background: #2980b9; }
+        code { background: #e8e8e8; padding: 2px 5px; border-radius: 3px; color: #e74c3c; }
+        .log-container { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 50px; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+
+    <h1>Unidad 2: Objetos de más alto nivel (BOM)</h1>
+    <p><i>Abre la consola (F12) para ver los logs detallados mientras interactúas.</i></p>
+
+    <div class="section">
+        <h2>1. Objeto Window & Diálogos</h2>
+        <p>El objeto <code>window</code> es la raíz de todo en el navegador.</p>
+        <button onclick="probarDialogos()">Probar Diálogos (Alert, Confirm, Prompt)</button>
+        <button onclick="abrirVentana()">Abrir Ventana Emergente (window.open)</button>
+        <div id="output-window"></div>
+    </div>
+
+    <div class="section">
+        <h2>2. Screen & Navigator</h2>
+        <p>Información del monitor del usuario y del software del navegador.</p>
+        <button onclick="mostrarInfoHardware()">Mostrar Info Hardware/Software</button>
+        <div id="output-info"></div>
+    </div>
+
+    <div class="section">
+        <h2>3. Location & History</h2>
+        <p>Control de la URL y el historial de navegación.</p>
+        <button onclick="verLocation()">Ver Propiedades de URL</button>
+        <button onclick="history.back()">Ir Atrás (History.back)</button>
+        <button onclick="recargar()">Recargar (Location.reload)</button>
+    </div>
+
+    <div class="section">
+        <h2>4. Gestión de Tiempos</h2>
+        <p>Control de ejecución retardada o cíclica.</p>
+        <button onclick="lanzarTimeout()">Lanzar Timeout (3 seg)</button>
+        <button onclick="iniciarIntervalo()">Iniciar Intervalo (Contador)</button>
+        <button onclick="detenerIntervalo()" style="background:#e74c3c">Detener Intervalo</button>
+        <div id="cronometro" style="font-size: 20px; font-weight: bold; color: #2c3e50;">0</div>
+    </div>
+
+    <div class="section">
+        <h2>Terminal de Salida</h2>
+        <div id="terminal" class="log-container">Esperando acciones...</div>
+    </div>
+
+    <script>
+        // ========================================================
+        // COMPLEMENTO PRÁCTICO UNIDAD 2 - JAVASCRIPT
+        // ========================================================
+
+        const terminal = document.getElementById('terminal');
+        function log(msg) {
+            terminal.innerText = ">> " + msg;
+            console.log(msg);
+        }
+
+        // --- 1. WINDOW & DIÁLOGOS ---
+        function probarDialogos() {
+            window.alert("Esto es un window.alert()");
+            let conf = window.confirm("¿Confirmas que quieres aprender JS?");
+            let prom = window.prompt("¿Cómo te llamas?", "Estudiante");
+            log(`Confirmación: ${conf} | Nombre: ${prom}`);
+        }
+
+        function abrirVentana() {
+            // Sintaxis: open(url, nombre, caracteristicas)
+            // Características comunes: width, height, top, left, toolbar, resizable
+            let miVentana = window.open("", "Test", "width=300,height=300,left=500,top=200");
+            miVentana.document.write("<h3>Ventana de prueba</h3><p>Creada con window.open()</p>");
+            log("Ventana emergente abierta.");
+        }
+
+        // --- 2. SCREEN & NAVIGATOR ---
+        function mostrarInfoHardware() {
+            let info = `
+--- SCREEN ---
+Resolución: ${screen.width}x${screen.height}
+Disponible: ${screen.availWidth}x${screen.availHeight}
+Profundidad Color: ${screen.colorDepth} bits
+
+--- NAVIGATOR ---
+Navegador: ${navigator.appName}
+Cookies activas: ${navigator.cookieEnabled}
+Idioma: ${navigator.language}
+Online: ${navigator.onLine}
+Plataforma: ${navigator.platform}
+            `;
+            log(info);
+        }
+
+        // --- 3. LOCATION ---
+        function verLocation() {
+            let loc = `
+URL (href): ${location.href}
+Host: ${location.host}
+Protocolo: ${location.protocol}
+Ruta (pathname): ${location.pathname}
+            `;
+            log(loc);
+        }
+
+        function recargar() {
+            location.reload();
+        }
+
+        // --- 4. GESTIÓN DE TIEMPOS ---
+        let miIntervalo = null;
+
+        function lanzarTimeout() {
+            log("Iniciando cuenta atrás de 3 segundos...");
+            setTimeout(() => {
+                log("¡TIMEOUT EJECUTADO! Se activa una sola vez.");
+                alert("Han pasado 3 segundos");
+            }, 3000);
+        }
+
+        function iniciarIntervalo() {
+            if (miIntervalo) return; // Evitar múltiples intervalos
+            let cuenta = 0;
+            log("Intervalo iniciado.");
+            miIntervalo = setInterval(() => {
+                cuenta++;
+                document.getElementById('cronometro').innerText = cuenta;
+                console.log("Tic... " + cuenta);
+            }, 1000);
+        }
+
+        function detenerIntervalo() {
+            clearInterval(miIntervalo);
+            miIntervalo = null;
+            log("Intervalo detenido.");
+        }
+
+        // --- 5. DOCUMENT (Propiedades de alto nivel) ---
+        // Se ejecutan al cargar la página
+        window.onload = () => {
+            console.log("--- DOCUMENT INFO ---");
+            console.log("Título: " + document.title);
+            console.log("URL: " + document.URL);
+            console.log("Última mod: " + document.lastModified);
+        };
+
+    </script>
+</body>
+</html>

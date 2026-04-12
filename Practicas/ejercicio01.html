@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>📘 Ejercicio de Examen 1: Gestión de Biblioteca (LocalStorage y JSON)</h4>
+    <p><b>Objetivo:</b> Trabajar con clases/objetos, manipulación de arrays, conversión de JSON y Web Storage.</p>
+    <p><b>Descripción:</b> Desarrolla una pequeña aplicación para gestionar los libros de una biblioteca.</p>
+    <p>
+        1. Crea una clase Libro con las propiedades: id, titulo, autor, anioPublicacion y leido (booleano).<br>
+        2. Simula una base de datos inicial creando un String en formato JSON que contenga un array con 3 libros.<br>
+        3. Transforma ese JSON a objetos de JavaScript utilizando JSON.parse().<br>
+        4. Utiliza un bucle para recorrer ese array y guarda cada libro individualmente en el LocalStorage utilizando su id como clave y el objeto libro convertido a JSON como valor.<br>
+        5. Calcula cuántos libros han sido leídos y guarda ese número en el SessionStorage con la clave libros_leidos.<br>
+        6. Añade una funcionalidad donde se busque (usando el método .find()) un libro por su título y se imprima su información por consola.
+    </p>
+    <script>
+        console.log("--- Ejercicio 1: Biblioteca ---");
+
+        function Libro(id, titulo, autor, anioPublicado, leido) {
+            this.id = id;
+            this.titulo = titulo;
+            this.autor = autor;
+            this.anioPublicado = anioPublicado;
+            this.leido = leido;
+        }
+        /* const libreria_db = [
+            {"id":1, "titulo":"1984", "autor":"Orwell", "anioPublicacion":1949, "leido":true}, 
+            {"id":2, "titulo":"Dune", "autor":"Herbert", "anioPublicacion":1965, "leido":false}, 
+            {"id":3, "titulo":"Fundacion", "autor":"Asimov", "anioPublicacion":1951, "leido":true}
+        ]; */
+        let jsonLibreria = '[{"id":1, "titulo":"1984", "autor":"Orwell", "anioPublicacion":1949, "leido":true}, {"id":2, "titulo":"Dune", "autor":"Herbert", "anioPublicacion":1965, "leido":false}, {"id":3, "titulo":"Fundacion", "autor":"Asimov", "anioPublicacion":1951, "leido":true}]';
+        let arrayLibros = JSON.parse(jsonLibreria);
+        let contLeido = 0;
+
+        /* for (let i=0; i < libreria_db.length; i++) {
+            console.log(i);
+        } */
+        for (let i=0; i < arrayLibros.length; i++) {
+            let libroActual = arrayLibros[i];
+            localStorage.setItem(libroActual.id, JSON.stringify(libroActual));
+            if (libroActual.leido === true) {
+                contLeido++;
+            }
+        }
+
+        sessionStorage.setItem("libros_leidos", contLeido);
+
+        let libroBuscado = arrayLibros.find(function(libro) {
+            return libro.titulo === "1984";
+        });
+
+        console.log("Libro encontrado: ", libroBuscado);
+        console.log("Total libros leidos (desde SessionStorage): ", sessionStorage.getItem("libros_leidos"));
+        console.log();
+    </script>
+</body>
+</html>

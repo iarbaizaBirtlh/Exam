@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h4>📘 Ejercicio de Examen 4: Arquitectura MVVM y Procesamiento de Empleados</h4>
+    <p><b>Objetivo:</b> Respetar la arquitectura propuesta por el profesor y procesar datos.</p>
+    <p><b>Descripción:</b> Crea un array de objetos literales con 5 empleados (mezclando departamentos como "IT", "Ventas", "RRHH").</p>
+    <p>
+        1. Model: Crea la clase Empleado con id, nombre, departamento y salario.<br>
+        2. Data: Crea un array de objetos literales con 5 empleados (mezclando departamentos como "IT", "Ventas", "RRHH").<br>
+        3. Service: Crea un servicio que reciba los datos, instancie objetos de la clase Empleado y aplique la siguiente lógica:
+          <ol>Filtra los empleados que pertenezcan al departamento de "IT".</ol>
+          <ol>A esos empleados de "IT", auméntales el salario un 10%.</ol>
+          <ol>Guarda el listado actualizado de los de IT en el SessionStorage.</ol><br>
+        4. Main: Enlaza todo para que al cargar la página se ejecute este proceso y se imprima por consola "Proceso finalizado con éxito".<br>
+    </p>
+    <br><br>
+
+    <script>
+        console.log("=== EJERCICIO 4: Arquitectura ===");
+
+        function Empleado(id, nombre, departamento, salario) {
+			this.id = id;
+			this.nombre = nombre;
+			this.departamento = departamento;
+			this.salario = salario;
+        }
+
+        let datos_db = [
+			{id: 1, nombre: "Laura", departamento: "Ventas", salario: 1500},
+			{id: 2, nombre: "Pedro", departamento: "IT", salario: 2000},
+			{id: 3, nombre: "Sara", departamento: "RRHH", salario: 1800},
+			{id: 4, nombre: "Marcos", departamento: "IT", salario: 2100},
+			{id: 5, nombre: "Lucía", departamento: "Ventas", salario: 1600}
+        ];
+
+        function procesarIT() {
+			let listadoIT = new Array();
+
+			for (let i = 0; i < datos_db.length; i++) {
+				let objEmpleado = new Empleado(
+					datos_db[i].id, 
+					datos_db[i].nombre, 
+					datos_db[i].departamento, 
+					datos_db[i].salario
+				);
+
+				if (objEmpleado.departamento === "IT") {
+					objEmpleado.salario = objEmpleado.salario * 1.10;
+					listadoIT.push(objEmpleado);
+				}
+			}
+			sessionStorage.setItem("empleados_IT_actualizados", JSON.stringify(listadoIT));
+        }
+
+        procesarIT();
+        console.log("Proceso finalizado con éxito.");
+        console.log("Datos guardados en Session:", JSON.parse(sessionStorage.getItem("empleados_IT_actualizados")));
+    </script>
+</body>
+</html>
