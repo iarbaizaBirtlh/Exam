@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 1</title>
+</head>
+<body>
+
+
+  <h1>Lista de elementos</h1>
+  <input id="texto" type="text">
+  <button id="btn">Añadir</button>
+  <p id="error" style="color: red;"></p>
+
+
+  <ul id="lista"></ul>
+
+
+<script>
+  // --- AQUÍ TU CÓDIGO ---
+  document.addEventListener("DOMContentLoaded", function() {
+    let info_db = [];
+    const input = document.getElementById("texto");
+    const boton = document.getElementById("btn");
+    const error = document.getElementById("error");
+    const lista = document.getElementById("lista");
+
+    boton.addEventListener("click", function() {
+      if (input.value === "") {
+        error.textContent = "Error: el contenido está vacío.";
+        return;
+      }
+
+      error.textContent = "";
+      info_db.push(input.value);
+
+      lista.innerHTML = "";
+
+      info_db.forEach(element => {
+        lista.innerHTML += `<li>${element}</li>`;
+      });
+
+      input.value = "";
+    });
+
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 4</title>
+</head>
+<body>
+    <form>
+        <label for="altura">Estatura (en metros):</label>
+        <input type="text" name="altura" id="altura"><br><br>
+        
+        <label for="peso">Peso (en kg):</label>
+        <input type="text" name="peso" id="peso"><br><br>
+
+        <button type="button" id="boton">Calcular IMC</button>
+        <p id="resultado"></p>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const boton = document.getElementById("boton");
+            const resultado = document.getElementById("resultado");
+            resultado.innerText = "";
+            boton.addEventListener("click", function() {
+                const altura = parseFloat(document.getElementById("altura").value);
+                const peso = parseFloat(document.getElementById("peso").value);
+                4
+                if (isNaN(altura) || isNaN(peso)) {
+                    return ;
+                } else {
+                    let imc = peso / (altura * altura);
+                    resultado.innerText = `Tu IMC es: ${imc.toFixed(2)}`;
+    
+                    if (imc < 20.0) {
+                        resultado.style.color = "blue";
+                    } 
+                    else if (imc <= 25.0) {
+                        resultado.style.color = "green";
+                    } 
+                    else {
+                        resultado.style.color = "red";
+                    }
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>

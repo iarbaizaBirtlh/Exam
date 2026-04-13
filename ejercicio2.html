@@ -1,0 +1,55 @@
+<!-- Crea un pequeño sistema de notas donde:
+Se escriba un texto en un input
+Se pueda guardar pulsando un botón
+Se almacene en localStorage en un array
+Al recargar, las notas aparecen automáticamente
+ -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Ejercicio 2</title>
+</head>
+<body>
+    <h1>Notas</h1>
+
+    <input id="nota" type="text">
+    <button id="guardar">Guardar nota</button>
+
+    <h2>Notas guardadas</h2>
+    <ul id="listaNotas"></ul>
+
+    <script>
+    // TU CÓDIGO AQUÍ
+    document.addEventListener("DOMContentLoaded", function() {
+        const input = document.getElementById("nota");
+        const guardar = document.getElementById("guardar");
+        const lista = document.getElementById("listaNotas");
+        const notas = JSON.parse(localStorage.getItem("notas"));
+
+        function printNotas() {
+            lista.innerHTML = "";
+            notas.forEach(element => {
+                lista.innerHTML += `<li>${element}</li>`;
+            });
+        }
+
+        printNotas();
+
+        guardar.addEventListener("click", function() {
+            if(input.value === "") {
+                return;
+            }
+
+            notas.push(input.value);
+
+            localStorage.setItem("notas", JSON.stringify(notas));
+
+            input.value = "";
+
+            printNotas();
+        });
+    });
+    </script>
+</body>
+</html>
