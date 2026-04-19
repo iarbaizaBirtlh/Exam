@@ -12,6 +12,7 @@
         button:hover { background: #2980b9; }
         code { background: #e8e8e8; padding: 2px 5px; border-radius: 3px; color: #e74c3c; }
         .log-container { background: #2d3436; color: #fab1a0; padding: 15px; border-radius: 5px; font-family: monospace; min-height: 50px; white-space: pre-wrap; }
+        .storage-group { border-left: 4px solid #3498db; padding-left: 10px; margin: 10px 0; }
     </style>
 </head>
 <body>
@@ -24,14 +25,25 @@
         <p>El objeto <code>window</code> es la raíz de todo en el navegador.</p>
         <button onclick="probarDialogos()">Probar Diálogos (Alert, Confirm, Prompt)</button>
         <button onclick="abrirVentana()">Abrir Ventana Emergente (window.open)</button>
-        <div id="output-window"></div>
     </div>
 
     <div class="section">
-        <h2>2. Screen & Navigator</h2>
-        <p>Información del monitor del usuario y del software del navegador.</p>
-        <button onclick="mostrarInfoHardware()">Mostrar Info Hardware/Software</button>
-        <div id="output-info"></div>
+        <h2>2. Web Storage (Local & Session)</h2>
+        <p>Almacenamiento persistente (Local) y por sesión (Session).</p>
+        
+        <div class="storage-group">
+            <strong>LocalStorage:</strong> (Persiste al cerrar el navegador)<br>
+            <button onclick="guardarLocal()">Guardar Nombre</button>
+            <button onclick="leerLocal()">Leer Nombre</button>
+            <button onclick="borrarLocal()" style="background:#e67e22">Borrar Item</button>
+        </div>
+
+        <div class="storage-group">
+            <strong>SessionStorage:</strong> (Se borra al cerrar la pestaña)<br>
+            <button onclick="guardarSession()">Guardar Sesión</button>
+            <button onclick="leerSession()">Leer Sesión</button>
+            <button onclick="limpiarTodoStorage()" style="background:#e74c3c">Limpiar TODO</button>
+        </div>
     </div>
 
     <div class="section">
@@ -39,7 +51,7 @@
         <p>Control de la URL y el historial de navegación.</p>
         <button onclick="verLocation()">Ver Propiedades de URL</button>
         <button onclick="history.back()">Ir Atrás (History.back)</button>
-        <button onclick="recargar()">Recargar (Location.reload)</button>
+        <button onclick="location.reload()">Recargar (Location.reload)</button>
     </div>
 
     <div class="section">
@@ -57,11 +69,8 @@
     </div>
 
     <script>
-        // ========================================================
-        // COMPLEMENTO PRÁCTICO UNIDAD 2 - JAVASCRIPT
-        // ========================================================
-
         const terminal = document.getElementById('terminal');
+        
         function log(msg) {
             terminal.innerText = ">> " + msg;
             console.log(msg);
@@ -76,44 +85,72 @@
         }
 
         function abrirVentana() {
-            // Sintaxis: open(url, nombre, caracteristicas)
-            // Características comunes: width, height, top, left, toolbar, resizable
             let miVentana = window.open("", "Test", "width=300,height=300,left=500,top=200");
             miVentana.document.write("<h3>Ventana de prueba</h3><p>Creada con window.open()</p>");
             log("Ventana emergente abierta.");
         }
 
-        // --- 2. SCREEN & NAVIGATOR ---
-        function mostrarInfoHardware() {
-            let info = `
---- SCREEN ---
-Resolución: ${screen.width}x${screen.height}
-Disponible: ${screen.availWidth}x${screen.availHeight}
-Profundidad Color: ${screen.colorDepth} bits
-
---- NAVIGATOR ---
-Navegador: ${navigator.appName}
-Cookies activas: ${navigator.cookieEnabled}
-Idioma: ${navigator.language}
-Online: ${navigator.onLine}
-Plataforma: ${navigator.platform}
-            `;
-            log(info);
+        // --- 2. LOCALSTORAGE & SESSIONSTORAGE ---
+        
+        // LocalStorage
+        function guardarLocal() {
+            const nombre = "John Doe";
+            localStorage.setItem('usuario', nombre);
+            log(`LocalStorage: Guardado 'usuario' = ${nombre}`);
         }
+
+        function leerLocal() {
+            const valor = localStorage.getItem('usuario');
+            log(`LocalStorage: El valor recuperado es [${valor}]`);
+        }
+
+        function borrarLocal() {
+            localStorage.removeItem('usuario');
+            log("LocalStorage: Item 'usuario' eliminado.");
+        }
+
+        // SessionStorage
+        function guardarSession() {
+            const id = "SESION-" + Math.floor(Math.random() * 1000);
+            sessionStorage.setItem('sessionID', id);
+            log(`SessionStorage: Guardado 'sessionID' = ${id}`);
+        }
+
+        function leerSession() {
+            const valor = sessionStorage.getItem('sessionID');
+            log(`SessionStorage: El valor recuperado es [${valor}]`);
+        }
+
+        function limpiarTodoStorage() {
+            localStorage.clear();
+            sessionStorage.clear();
+            log("SISTEMA: Todo el almacenamiento (Local y Session) ha sido vaciado.");
+        }
+
+        /* 
+        // =======================
+        // localStorage & sessionStorage
+        // =======================
+        // localStorage
+        localStorage.setItem('name', 'John'); // Stores data in localStorage
+        console.log(localStorage.getItem('name')); // Output: John
+        localStorage.removeItem('name'); // Removes the 'name' item from localStorage
+        console.log(localStorage.getItem('name')); // Output: null
+        localStorage.clear(); // Clears all localStorage data
+        console.log(localStorage.getItem('name')); // Output: null
+
+        // sessionStorage
+        sessionStorage.setItem('sessionName', 'Jane'); // Stores data in sessionStorage
+        console.log(sessionStorage.getItem('sessionName')); // Output: Jane
+        sessionStorage.removeItem('sessionName'); // Removes the 'sessionName' item from sessionStorage
+        console.log(sessionStorage.getItem('sessionName')); // Output: null
+        sessionStorage.clear(); // Clears all sessionStorage data
+        console.log(sessionStorage.getItem('sessionName')); // Output: null
+        */
 
         // --- 3. LOCATION ---
         function verLocation() {
-            let loc = `
-URL (href): ${location.href}
-Host: ${location.host}
-Protocolo: ${location.protocol}
-Ruta (pathname): ${location.pathname}
-            `;
-            log(loc);
-        }
-
-        function recargar() {
-            location.reload();
+            log(`URL Actual: ${location.href} | Host: ${location.hostname}`);
         }
 
         // --- 4. GESTIÓN DE TIEMPOS ---
@@ -128,7 +165,7 @@ Ruta (pathname): ${location.pathname}
         }
 
         function iniciarIntervalo() {
-            if (miIntervalo) return; // Evitar múltiples intervalos
+            if (miIntervalo) return;
             let cuenta = 0;
             log("Intervalo iniciado.");
             miIntervalo = setInterval(() => {
@@ -144,13 +181,9 @@ Ruta (pathname): ${location.pathname}
             log("Intervalo detenido.");
         }
 
-        // --- 5. DOCUMENT (Propiedades de alto nivel) ---
-        // Se ejecutan al cargar la página
         window.onload = () => {
-            console.log("--- DOCUMENT INFO ---");
+            console.log("--- DOCUMENT READY ---");
             console.log("Título: " + document.title);
-            console.log("URL: " + document.URL);
-            console.log("Última mod: " + document.lastModified);
         };
 
     </script>
