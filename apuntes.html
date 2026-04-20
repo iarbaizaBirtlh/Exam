@@ -26,11 +26,11 @@
     <br><br><hr>
 
     <!-- INPUT Y BOTON -->
-    <br><br>
+    <br>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="btnSaludar">Saludar</button>
     <div id="resultado"></div>
-    <br><br><hr>
+    <br><hr>
     
     <!-- LOCAL STORAGE -->
     <br>
@@ -60,19 +60,14 @@
     <br><br><hr>
 
     <!-- AJAX NATIVO -->
+    <br>
     <button id="cargarUsuarios">Fetch GET usuarios</button>
     <button id="postUsuario">Fetch POST usuarios</button>
     <div id="usuarios"></div>
-
-    <!-- AJAX JQUERY -->
-    <button id="jqGet">jQuery GET</button>
-    <button id="jqPost">jQuery POST</button>
-    <button id="jqAjax">jQuery AJAX</button>
-    <div id="jqResultado" class="resultado"></div>
-
-    <br><br><hr>
+    <br><hr>
 
     <!-- OBJETOS Y JSON -->
+    <br>
     <button id="crearObjeto">Crear objeto</button>
     <button id="stringify">JSON.stringify()</button>
     <button id="parse">JSON.parse()</button>
@@ -254,33 +249,6 @@
             });
             const data = await res.json();
             document.getElementById("usuarios").innerHTML = "POST exitoso: " + JSON.stringify(data);
-        });
-
-        // -------------------- JQUERY AJAX --------------------
-        $("#jqGet").click(function(){
-            $.get("https://jsonplaceholder.typicode.com/users", function(data){
-                let txt = "GET:\n";
-                data.slice(0,3).forEach(u => txt += u.username + "\n");
-                $("#jqResultado").text(txt);
-            });
-        });
-        $("#jqPost").click(function(){
-            let usuario = {nombre:"Iker", edad:25};
-            $.post("https://jsonplaceholder.typicode.com/users", usuario, function(res){
-                $("#jqResultado").text("POST creado: " + JSON.stringify(res));
-            });
-        });
-        $("#jqAjax").click(function(){
-            $.ajax({
-                url: "https://jsonplaceholder.typicode.com/users",
-                method: "GET",
-                success: function(data){
-                    $("#jqResultado").text("AJAX OK: " + data.length + " usuarios");
-                },
-                error: function(){
-                    $("#jqResultado").text("Error AJAX");
-                }
-            });
         });
 
         // -------------------- OBJETOS + JSON --------------------
