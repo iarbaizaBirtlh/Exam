@@ -4,107 +4,297 @@
     <meta charset="UTF-8">
     <title>Repaso Completo JS</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .resultado { 
+            margin-top: 20px; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            background-color: #f9f9f9;
+            white-space: pre-line;
+            font-family: monospace;
+        }
+        button { margin: 5px 0; padding: 8px 12px; cursor: pointer; }
+        b { color: #d63384; }
+    </style>
 </head>
 <body>
-
     <h1>Repaso JS Examen</h1>
 
+    <h3>Consola:</h3>
+    <div id="consola" class="resultado">...</div>
+    <br><br><hr>
+
+    <!-- BOM -->
+    <br>
+    <button onclick="abrirVentana('https://www.google.com')">Abrir ventana <b>OPEN</b></button>
+    <button onclick="lanzarAlerta('¿Desea continuar?')">Lanzar alerta <b>CONFIRM</b></button>
+    <button onclick="redirigir('https://www.google.com')">Redirigir <b>location.href</b></button>
+    <button onclick="infoNavegador()">Info navegador <b>navigation.language/online</b></button>
+    <button onclick="infoPantalla()">Info pantalla <b>screen.width/height</b></button>
+    <br><br><hr>
+    
+    <!-- LOCAL STORAGE -->
+    <br>
+    <button id="guardar">Guardar en localStorage <b>setItem()</b></button>
+    <button id="leer">Leer localStorage <b>getItem()</b></button>
+    <button id="borrar">Borrar localStorage <b>removeItem()</b></button>
+    <button id="borrarTodo">Borrar Todo localStorage <b>clear()</b></button>
+    <br><br><hr>
+
+    <!-- EVENTOS -->
+    <br>
+    <p><button id="boton1" onclick="cambiarColorBoton()">Presioname!</button></p>
+    <div id="caja">Contenedor!</div>
+    <button id="boton2">Boton Event Listener!</button>
+    <p><form><input type="text" name="nombre" id="nombre1"></form></p>
+    <p id="parrafo1">Parrafo 1</p>
+    <p id="parrafo2">Parrafo 2</p>
+    <br><br><hr>
+    
     <!-- INPUT Y BOTON -->
+    <br><br>
     <input type="text" id="nombre" placeholder="Escribe tu nombre">
     <button id="btnSaludar">Saludar</button>
     <div id="resultado"></div>
+    <br><br><hr>
 
-    <hr>
-
-    <!-- BOTON COLOR -->
-    <button id="btnColor">Cambiar color</button>
-
-    <hr>
-
-    <!-- LOCAL STORAGE -->
-    <button id="guardar">Guardar en localStorage</button>
-    <button id="leer">Leer localStorage</button>
-
-    <hr>
-
-    <!-- AJAX -->
-    <button id="cargarUsuarios">Cargar usuarios</button>
+    <!-- AJAX NATIVO -->
+    <button id="cargarUsuarios">Fetch GET usuarios</button>
+    <button id="postUsuario">Fetch POST usuarios</button>
     <div id="usuarios"></div>
 
+    <!-- AJAX JQUERY -->
+    <button id="jqGet">jQuery GET</button>
+    <button id="jqPost">jQuery POST</button>
+    <button id="jqAjax">jQuery AJAX</button>
+    <div id="jqResultado" class="resultado"></div>
+
+    <br><br><hr>
+
+    <!-- OBJETOS Y JSON -->
+    <button id="crearObjeto">Crear objeto</button>
+    <button id="stringify">JSON.stringify()</button>
+    <button id="parse">JSON.parse()</button>
+    <div id="jsonResultado" class="resultado"></div>
+
     <script>
-    // ---------------- DOM + EVENTOS ----------------
-    document.getElementById("btnSaludar").addEventListener("click", function() {
-        let nombre = document.getElementById("nombre").value;
+        const consola = document.getElementById("consola");
 
-        if(nombre === "") {
-            alert("Introduce un nombre");
-            return;
+        // -------------------- BOM --------------------
+        // Window
+        function abrirVentana(url) {
+            window.open(url);
+            consola.innerHTML = "Abriendo ventana: " + url;
+        }
+        function lanzarAlerta(texto) {  // --> Muestra un mensaje de confirmacion con "Aceptar" y "Cancelar"
+            let confm =  window.confirm(texto);
+            if (confm === true) {
+                consola.innerHTML = "El usuario pulsó: <b>Aceptar</b>";
+                window.alert("Aceptar");    // --> Muestra mensaje de alerta con "Aceptar"
+            } else {
+                consola.innerHTML = "El usuario pulsó: <b>Cancelar</b>";
+                window.alert("Cancelar")    // --> Muestra mensaje de alerta con "Cancelar"
+            }
+        }
+        // Location
+        function redirigir(url) {
+            consola.innerHTML = "URL Actual: " + window.location.href + "<br>Redirigiendo a: " + url;  // --> Muestra la URL actual -> http://127.0.0.1:5501/UD03/BOM.html
+            setTimeout(() => {
+                window.location.href = url; // --> Redirige la pagina a la URL indicada
+            }, 5000);
+        }
+        // Navigator
+        function infoNavegador() {
+            let lang = window.navigator.language;   // --> es-ES idioma navegador
+            let online = window.navigator.onLine ? "Sí" : "No"; // --> true si esta online 
+            consola.innerHTML = `Idioma: <b>${lang}</b> <br> ¿Está online?: <b>${online}</b>`;
+        }
+        // Screen
+        function infoPantalla() {
+            let ancho = window.screen.width;    // --> 1746px de ancho
+            let alto = window.screen.height;    // --> 982px de alto
+            consola.innerHTML = `Resolución de pantalla: <b>${ancho}px x ${alto}px</b>`;  
         }
 
-        document.getElementById("resultado").innerHTML = "Hola " + nombre;
-    });
-
-    // ---------------- CAMBIO COLOR ----------------
-    document.getElementById("btnColor").addEventListener("click", function() {
-        let boton = document.getElementById("btnColor");
-
-        if(boton.style.background === "green") {
-            boton.style.background = "red";
-        } else {
-            boton.style.background = "green";
+        // -------------------- LOCALSTORAGE + SESSIONSTORAGE --------------------
+        document.getElementById("guardar").addEventListener("click", function() {
+            const nombre = document.getElementById("nombre");
+            let texto = localStorage.getItem("lista");   // Leer el texto guardado
+            let lista = [];
+            if (nombre.value === "") {
+                consola.innerHTML = "⚠️ Escribe un nombre.";
+                return;
+            }
+            if (texto !== null) {   // Si hay algo guardado, convertimos a array para poder añadir el nombre
+                lista = JSON.parse(texto);    // Convertir el texto a Array
+            }
+            lista.push(nombre.value);    // Añadir nombre al Array
+            localStorage.setItem("lista", JSON.stringify(lista));  // Guardar la lista convertida a String en localStorage 
+            consola.innerHTML = "✅ Añadido: '" + nombre.value + "'. Ya hay " + lista.length + " lista en la lista.";
+        });
+        document.getElementById("leer").addEventListener("click", function() {
+            let texto = localStorage.getItem("lista");
+            if (texto === null) {
+                consola.innerHTML = "❌ Nada guardado.";
+                return;
+            }
+            let nombres = JSON.parse(texto);    // Convertir a Array para recorrerlo
+            let html = "📖 Nombres:<ul>";
+            for (let i = 0; i < nombres.length; i++) {
+                html += "<li>" + nombres[i] + "</li>";
+            }
+            /* nombres.forEach(nom => {
+                html += "<li>" + nom + "</li>";
+            }); */
+            html += "</ul>";
+            consola.innerHTML = html;
+        });
+        document.getElementById("borrar").addEventListener("click", function() {
+            localStorage.removeItem("lista");
+            consola.innerHTML = "🗑️ La lista de nombres ha sido eliminada.";
+        });
+        document.getElementById("borrarTodo").addEventListener("click", function() {
+            localStorage.clear();
+            consola.innerHTML = "💥 Se ha borrado TODO el localStorage.";
+        });
+        
+        // -------------------- EVENTOS --------------------
+        // AddEventListener
+        var boton1 = document.getElementById("boton1");
+        function cambiarColorBoton() {
+            var bg = boton1.style.background;
+            // Cambia el color del boton dependiendo el color que tenga actualmente
+            if (bg == "green") {
+                boton1.style.background = "red";
+            } else {
+                boton1.style.background = "green";
+            }
+            // Añade mas estilos al boton
+            boton1.style.padding = "30px";
+            boton1.style.border = "3px solid black";
         }
-    });
+        // Raton
+        var boton2 = document.getElementById("boton2");
+        let parrafo1 = document.getElementById("parrafo1");
+        let parrafo2 = document.getElementById("parrafo2");
+        parrafo1.addEventListener("click", function() {
+            this.style.background = "yellow";
+        });
+        parrafo1.addEventListener("dblclick", function() {
+            this.style.background = "white";
+            this.style.color = "blue";
+        });
+        parrafo2.addEventListener("mouseover", function() {
+            this.style.background = "green";
+        });
+        parrafo2.addEventListener("mouseout", function() {
+            this.style.background = "blue";
+        });
+        boton2.addEventListener("click", function() {       // Se ejecuta la funcion cada vez que se hace click en el boton
+            cambiarColorBoton();
+        });
+        boton2.addEventListener("mouseover", function() {   // Se ejecuta la funcion cada vez que el raton pasa por encima del boton
+            boton2.style.background = "yellow";
+        });
+        boton2.addEventListener("mouseout", function() {     // Se ejecuta la funcion cada vez que el raton sale del boton
+            boton2.style.background = "white";
+        });
+        // Teclas
+        var input = document.getElementById("nombre1");
+        input.addEventListener("focus", function() {    // Focus -  cuando entramos al input
+            console.log("Estas dentro del evento - Focus");
+            consola.innerHTML = "Estas dentro del evento - <b>Focus</b>";
+        });
+        input.addEventListener("blur", function() {     // Blur - cuando salimos del input
+            console.log("Estas fuera del evento - Blur");
+            consola.innerHTML = "Estas fuera del evento - <b>Blur</b>";
+        });
+        input.addEventListener("keydown", function() {  // KeyDown - tecla que estas pulsando en ese momento
+            console.log("Estas pulsando una tecla - keydown");
+            consola.innerHTML = "Estas pulsando una tecla - <b>keydown</b>";
+        });
+        input.addEventListener("keypress", function() { // Keypress - tecla que as mantenido pulsado
+            console.log("Has mantenido pulsado una tecla - keypress");
+            consola.innerHTML = "Has mantenido pulsado una tecla - <b>keypress</b>";
+        });
+        input.addEventListener("keyup", function() {    // KeyUp - captura evento cuando levanto/suelto la tecla
+            console.log("Has soltado una tecla - keyup");
+            consola.innerHTML = "Has soltado una tecla - <b>keyup</b>";
+        });
 
-    // ---------------- LOCAL STORAGE ----------------
-    document.getElementById("guardar").addEventListener("click", function() {
-        let nombre = document.getElementById("nombre").value;
-        localStorage.setItem("nombre", nombre);
-        alert("Guardado!");
-    });
-
-    document.getElementById("leer").addEventListener("click", function() {
-        let nombre = localStorage.getItem("nombre");
-        alert("Nombre guardado: " + nombre);
-    });
-
-    // ---------------- AJAX CON ASYNC/AWAIT ----------------
-    document.getElementById("cargarUsuarios").addEventListener("click", cargarUsuarios);
-
-    async function cargarUsuarios() {
-        try {
-            let response = await fetch("https://jsonplaceholder.typicode.com/users");
-            let data = await response.json();
-
-            let contenedor = document.getElementById("usuarios");
-            contenedor.innerHTML = "";
-
-            data.forEach(function(user) {
-                contenedor.innerHTML += "<p>" + user.name + "</p>";
+        // -------------------- FETCH --------------------
+        document.getElementById("cargarUsuarios").addEventListener("click", cargarUsuarios);
+        async function cargarUsuarios() {
+            try {
+                const response = await fetch("https://jsonplaceholder.typicode.com/users");
+                const data = await response.json();
+                let cont = document.getElementById("usuarios");
+                cont.innerHTML = "";
+                data.forEach(user => {
+                    cont.innerHTML += "<p>" + user.name + "</p>";
+                });
+            } catch(error) {
+                alert("Error al cargar datos");
+            }
+        }
+        document.getElementById("postUsuario").addEventListener("click", async () => {
+            const res = await fetch("https://jsonplaceholder.typicode.com/users", {
+                method: "POST",
+                body: JSON.stringify({ nombre: "Iker", edad: 25 }),
+                headers: { "Content-Type": "application/json" }
             });
+            const data = await res.json();
+            document.getElementById("usuarios").innerHTML = "POST exitoso: " + JSON.stringify(data);
+        });
 
-        } catch(error) {
-            alert("Error al cargar datos");
-        }
-    }
+        // -------------------- JQUERY AJAX --------------------
+        $("#jqGet").click(function(){
+            $.get("https://jsonplaceholder.typicode.com/users", function(data){
+                let txt = "GET:\n";
+                data.slice(0,3).forEach(u => txt += u.username + "\n");
+                $("#jqResultado").text(txt);
+            });
+        });
+        $("#jqPost").click(function(){
+            let usuario = {nombre:"Iker", edad:25};
+            $.post("https://jsonplaceholder.typicode.com/users", usuario, function(res){
+                $("#jqResultado").text("POST creado: " + JSON.stringify(res));
+            });
+        });
+        $("#jqAjax").click(function(){
+            $.ajax({
+                url: "https://jsonplaceholder.typicode.com/users",
+                method: "GET",
+                success: function(data){
+                    $("#jqResultado").text("AJAX OK: " + data.length + " usuarios");
+                },
+                error: function(){
+                    $("#jqResultado").text("Error AJAX");
+                }
+            });
+        });
 
-    // ---------------- ARRAYS Y BUCLES ----------------
-    let numeros = [1,2,3,4,5];
-    numeros.forEach(function(num) {
-        console.log("Numero:", num);
-    });
-
-    // ---------------- OBJETOS ----------------
-    let persona = {
-        nombre: "Iker",
-        edad: 25
-    };
-    console.log(persona.nombre);
-
-    // ---------------- JSON ----------------
-    let json = JSON.stringify(persona);
-    console.log(json);
-    let objeto = JSON.parse(json);
-    console.log(objeto);
+        // -------------------- OBJETOS + JSON --------------------
+        let persona = null;
+        const jsonResultado = document.getElementById("jsonResultado");
+        document.getElementById("crearObjeto").onclick = function() {
+            persona = {
+                nombre:"Iker",
+                edad:25
+            };
+            jsonResultado.innerHTML = "Objeto creado:\n" + JSON.stringify(persona, null, 2);
+        };
+        document.getElementById("stringify").onclick = function() {
+            if(!persona) return;
+            let json = JSON.stringify(persona);
+            jsonResultado.innerHTML = "JSON:\n" + json;
+        };
+        document.getElementById("parse").onclick = function() {
+            let texto = '{"nombre":"Iker","edad":25}';
+            let obj = JSON.parse(texto);
+            jsonResultado.innerHTML = "Parseado:\nNombre: " + obj.nombre;
+        };
     </script>
 </body>
 </html>
