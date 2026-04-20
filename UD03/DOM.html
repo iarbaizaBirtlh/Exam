@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM</title>
+</head>
+<body>
+    <h1>DOM</h1>
+
+    <div id="div1">Contenedor numero 1</div>
+    <div id="div2">Contenedor numero 2</div>
+    <div id="div3">Contenedor numero 3</div>
+    
+    <hr>
+    <section id="sec1">
+
+    </section>
+
+    <hr>
+    <section id="sec2" class="color">
+
+    </section>
+
+    <script>
+        // ---------------------- Selecciona elementoos ---------------------- 
+        // Seleccionar elemento con ID concreto
+        var contenedor1 = document.getElementById("div1");
+        var contenedor2 = document.querySelector("#div1");
+
+        console.log(contenedor1);   // --> <div id="div1">Contenedor numero 1</div>
+        console.log(contenedor2);   // --> <div id="div1">Contenedor numero 1</div>
+
+        // Seleccionar todos los divs
+        var contenedores = document.getElementsByTagName("div");
+        console.log(contenedores);  // --> HTMLCollection(3) [div#div1, div#div2, div#div3]
+
+        // Cambiar contenido elemento
+        var textoCont = contenedores[2].textContent;
+        console.log(textoCont);     // --> Contenedor numero 3
+
+        // Seleccionar todo el documento
+        var documento = document;
+        console.log(documento);     // --> #document (contenido completo del HTML)
+
+        var seleccion = document.getElementsByTagName("head");
+        console.log(seleccion);     // --> HTMLCollection [head] (contenido del head)
+
+        // ---------------------- Añadir elementoos ----------------------
+        var seccion = document.querySelector("#sec1");  // Selecciona la seccion 1
+
+        // Creamos un parrafo y un texto
+        var nuevoParrafo = document.createElement("p"); // Creamos el elemento <p></p>
+        var texto = document.createTextNode("Este es un nuevo parrafo"); // Creamos el texto para <p></p>
+
+        // Añadir texto a parrafo
+        nuevoParrafo.append(texto);     // --> Combinamos -> <p>Este es un nuevo parrafo</p>
+        // Añadir parrafo a seccion
+        seccion.append(nuevoParrafo);   // --> <section id="sec1"><p>Este es un nuevo parrafo</p></section>
+
+        // Añadir una clase seccion
+        seccion.className = "color";    // --> Añade la clase 'color' a la seccion 1
+        seccion.style.background = "red";   // --> Cambiar el fondo a rojo
+
+        console.log(seccion);   // --> <section id="sec1" class="color" style="background: red;"><p>Este es un nuevo parrafo</p></section>
+
+        // ---------------------- Seleccionar clase ----------------------
+        function cambiarFormatoContenedor(color, contenedor) {
+            contenedor.style.background = color;    // Cambia el fondo del contenedor al color especificado
+            contenedor.innerHTML = "Cambiamos el texto del contenedor"; // Cambia el contenido del contenedor
+            contenedor.style.padding = "20px";      // Cambia el padding del contenedor a 20px
+        }
+        
+        // Seleccionar elementos que contengan clase color
+        var elementosColor = document.getElementsByClassName("color");
+        console.log(elementosColor);    // --> HTMLCollection(2) [section#sec1.color, section#sec2.color]
+
+        // Añadir contenido a la segunda seccion
+        var seccion2 = document.querySelector("#sec2");
+
+        // Creamos un parrafo y un texto
+        var nuevoParrafo2 = document.createElement("p");
+        var texto2 = document.createTextNode("Texto aniadado a la seccion 2");
+
+        // Añadir texto a parrafo
+        nuevoParrafo2.append(texto2);
+        // Añadir parrafo a seccion
+        seccion.append(nuevoParrafo2);
+
+        // Cambiar el color a verde
+        for(element in elementosColor) {
+            if(elementosColor[element].className == "color") {
+                // Cambiamos color fondo a verde
+                elementosColor[element].style.background = "green";
+
+                // Cambiamos el formato del contenedor
+                cambiarFormatoContenedor("blue", elementosColor[element]);
+            }
+        }
+    </script>
+</body>
+</html>

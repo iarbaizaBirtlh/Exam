@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peticiones AJAX en JQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <style>
+        #datos {
+            border: 2px solid black;
+            width: 250px;
+            height: 350px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Peticiones AJAX en JQuery</h1>
+
+    <h3>Cargar AJAX</h3>
+    <div id="datos">
+
+    </div>
+
+    <hr>
+
+    <script>
+        $(document).ready(function() {
+            console.log("Ficheros cargados correctamente");
+
+            // ---------------------- Cargar AJAX ----------------------
+            var datos = $("#datos");
+            //$(datos).load("https://jsonplaceholder.typicode.com/users")
+            
+            // ---------------------- Metodo GET ----------------------
+            $.get("https://jsonplaceholder.typicode.com/users", {page:2}, function(response) {
+                console.log(response);
+                response.forEach(element => {
+                    $(datos).append("<p>" + element.username + "</p>");
+                });
+            });
+
+            // ---------------------- Metodo POST ----------------------
+            var usuario = {
+                "nombre": "Izaro",
+                "apellido": "Arbaiza"
+            };
+            $.post("https://jsonplaceholder.typicode.com/users", usuario, function(response) {
+                console.log(response);
+            }).done(function() {
+                alert("Usuario creado satisfactoriamente");
+            });
+
+            // ---------------------- Otras peticiones AJAX ----------------------
+            $.ajax({
+                type: "POST",
+                url: "https://jsonplaceholder.typicode.com/users",
+                data: usuario,
+                beforeSend: function() {
+                    console.log("Enviando usuario...");
+                },
+                success: function(response) {
+                    console.log("Usuario creado satisfactoriamente");
+                    console.log(response);
+                },
+                error: function() {
+                    console.log("Error al crear el usuario");
+                },
+                timeout: 1000
+            });
+        });
+    </script>
+</body>
+</html>

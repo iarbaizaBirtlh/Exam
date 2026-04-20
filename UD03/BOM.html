@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOM</title>
+</head>
+<body>
+    <script>
+        // ---------------------- Window ----------------------
+        // Funciones Window
+        function abrirVentana(url) {
+            window.open(url)
+        }
+
+        // Mensaje de configuracion
+        //lanzarAlerta("¿Desea continuar?");  // --> Muestra un mensaje de confirmacion con "Aceptar" y "Cancelar"
+        function lanzarAlerta(texto) {
+            let confm =  window.confirm(texto);
+            if (v == true) {
+                window.alert("Aceptar");    // --> Muestra mensaje de alerta con "Aceptar"
+            } else {
+                window.alert("Cancelar")    // --> Muestra mensaje de alerta con "Cancelar"
+            }
+        }
+
+        // ---------------------- Location ----------------------
+        // Redirigir
+        console.log(window.location.href);  // --> Muestra la URL actual -> http://127.0.0.1:5501/UD03/BOM.html
+
+        function redirigir(url) {
+            window.location.href = url;
+        }
+
+        // ---------------------- Navigator ----------------------
+        infoNavegador();
+        function infoNavegador() {
+            console.log(window.navigation.language);
+            console.log(window.navigation.cookiesEnabled);
+        }
+
+        // ---------------------- Navigator ----------------------
+        console.log(window.screen.width);   // --> 1746px de ancho
+        console.log(window.screen.height);  // --> 982px de alto
+    </script>
+</body>
+</html>

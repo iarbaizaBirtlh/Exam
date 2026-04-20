@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector JQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Pruebas Eventos JQuery</h1>
+
+    <h3> JQuery</h3>
+    <p id="parrafo1">Parrafo 1</p>
+    
+    <hr>
+    <h3>Eventos Mouse</h3>
+    <p id="parrafo2">Parrafo 2</p>
+
+    <hr>
+    <h3>Focus y Blur</h3>
+    <form>
+        <input type="text" id="nombre">
+    </form>
+    
+    <script>
+        $(document).ready(function() {
+            console.log("JQuery Cargado correctamente!");
+            var parrafo = $("#parrafo1");
+            console.log(parrafo);
+
+            // Eventos click y doble click
+            parrafo.click(function() {
+                $(this).css("background", "yellow");
+            });
+            parrafo.dblclick(function() {
+                $(this).css("background", "white").css("color", "blue");
+            });
+
+            // Eventos Raton
+            var parrafo2 = $("#parrafo2");
+            // Mouseover y Mouseout
+            parrafo2.mouseover(function() {
+                $(this).css("background", "green");
+            });
+            parrafo2.mouseout(function() {
+                $(this).css("background", "blue");
+            });
+            // Hover - lo mismo que arriba pero mas sencillo
+            /* parrafo2.hover(cambiarVerde, cambiarAzul);
+            function cambiarVerde() {
+                $(this).css("background", "green");
+            }
+            function cambiarAzul() {
+                $(this).css("background", "blue");
+            } */
+
+            // Focus y Blur
+            var nombre = $("#nombre");
+            nombre.focus(function() {
+                $(this).css("border", "5px solid green");
+            })
+            nombre.blur(function() {
+                $(this).css("border", "5px solid green");
+                let valor = $(this).val();
+                alert(valor);
+            })
+        });
+    </script>
+</body>
+</html>

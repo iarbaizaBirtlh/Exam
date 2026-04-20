@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Repaso Completo JS</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+    <h1>Repaso JS Examen</h1>
+
+    <!-- INPUT Y BOTON -->
+    <input type="text" id="nombre" placeholder="Escribe tu nombre">
+    <button id="btnSaludar">Saludar</button>
+    <div id="resultado"></div>
+
+    <hr>
+
+    <!-- BOTON COLOR -->
+    <button id="btnColor">Cambiar color</button>
+
+    <hr>
+
+    <!-- LOCAL STORAGE -->
+    <button id="guardar">Guardar en localStorage</button>
+    <button id="leer">Leer localStorage</button>
+
+    <hr>
+
+    <!-- AJAX -->
+    <button id="cargarUsuarios">Cargar usuarios</button>
+    <div id="usuarios"></div>
+
+    <script>
+    // ---------------- DOM + EVENTOS ----------------
+    document.getElementById("btnSaludar").addEventListener("click", function() {
+        let nombre = document.getElementById("nombre").value;
+
+        if(nombre === "") {
+            alert("Introduce un nombre");
+            return;
+        }
+
+        document.getElementById("resultado").innerHTML = "Hola " + nombre;
+    });
+
+    // ---------------- CAMBIO COLOR ----------------
+    document.getElementById("btnColor").addEventListener("click", function() {
+        let boton = document.getElementById("btnColor");
+
+        if(boton.style.background === "green") {
+            boton.style.background = "red";
+        } else {
+            boton.style.background = "green";
+        }
+    });
+
+    // ---------------- LOCAL STORAGE ----------------
+    document.getElementById("guardar").addEventListener("click", function() {
+        let nombre = document.getElementById("nombre").value;
+        localStorage.setItem("nombre", nombre);
+        alert("Guardado!");
+    });
+
+    document.getElementById("leer").addEventListener("click", function() {
+        let nombre = localStorage.getItem("nombre");
+        alert("Nombre guardado: " + nombre);
+    });
+
+    // ---------------- AJAX CON ASYNC/AWAIT ----------------
+    document.getElementById("cargarUsuarios").addEventListener("click", cargarUsuarios);
+
+    async function cargarUsuarios() {
+        try {
+            let response = await fetch("https://jsonplaceholder.typicode.com/users");
+            let data = await response.json();
+
+            let contenedor = document.getElementById("usuarios");
+            contenedor.innerHTML = "";
+
+            data.forEach(function(user) {
+                contenedor.innerHTML += "<p>" + user.name + "</p>";
+            });
+
+        } catch(error) {
+            alert("Error al cargar datos");
+        }
+    }
+
+    // ---------------- ARRAYS Y BUCLES ----------------
+    let numeros = [1,2,3,4,5];
+    numeros.forEach(function(num) {
+        console.log("Numero:", num);
+    });
+
+    // ---------------- OBJETOS ----------------
+    let persona = {
+        nombre: "Iker",
+        edad: 25
+    };
+    console.log(persona.nombre);
+
+    // ---------------- JSON ----------------
+    let json = JSON.stringify(persona);
+    console.log(json);
+    let objeto = JSON.parse(json);
+    console.log(objeto);
+    </script>
+</body>
+</html>

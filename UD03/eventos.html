@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eventos</title>
+</head>
+<body>
+    <h1>Eventos</h1>
+    <p>
+        <button id="boton" onclick="cambiarColorBoton()">Presioname!</button>
+    </p>
+    <hr>
+    <div id="caja">Contenedor!</div>
+
+    <hr>
+    <button id="boton2">Boton Event Listener!</button>
+
+    <hr>
+    <p>
+        <form>
+            <input type="text" name="nombre" id="nombre">
+        </form>
+    </p>
+
+    <script>
+        // ---------------------- Eventos de raton ----------------------
+        var boton = document.querySelector("#boton");
+
+        function cambiarColorBoton() {
+            var bg = boton.style.background;
+
+            // Cambia el color del boton dependiendo el color que tenga actualmente
+            if (bg == "green") {
+                boton.style.background = "red";
+            } else {
+                boton.style.background = "green";
+            }
+
+            // Añade mas estilos al boton
+            boton.style.padding = "30px";
+            boton.style.border = "3px solid black";
+        }
+
+        // ---------------------- Eventos AddEventListener ----------------------
+        var boton2 = document.querySelector("#boton2");
+
+        boton2.addEventListener("click", function() {       // Se ejecuta la funcion cada vez que se hace click en el boton
+            cambiarColorBoton();
+        });
+
+        boton2.addEventListener("mouseover", function() {   // Se ejecuta la funcion cada vez que el raton pasa por encima del boton
+            boton2.style.background = "yellow";
+        });
+
+        boton2.addEventListener("mouseout", function() {     // Se ejecuta la funcion cada vez que el raton sale del boton
+            boton2.style.background = "white";
+        });
+
+        // ---------------------- Eventos Raton y Teclas ----------------------
+        var input = document.querySelector("#nombre");
+
+        // Focus -  cuando entramos al input
+        input.addEventListener("focus", function() {
+            console.log("Estas dentro del evento - Focus");
+        });
+        
+        // Blur - cuando salimos del input
+        input.addEventListener("blur", function() {
+            console.log("Estas fuera del evento - Blur");
+        });
+        
+        // KeyDown - tecla que estas pulsando en ese momento
+        input.addEventListener("keydown", function() {
+            console.log("Estas pulsando una tecla - keydown");
+        });
+        
+        // Keypress - tecla que as mantenido pulsado
+        input.addEventListener("keypress", function() {
+            console.log("Has mantenido pulsado una tecla - keypress");
+        });
+        
+        // KeyUp - captura evento cuando levanto/suelto la tecla
+        input.addEventListener("keyup", function() {
+            console.log("Has soltado una tecla - keyup");
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variables</title>
+</head>
+<body>
+    <script>
+        // localStorage
+        localStorage.setItem('name', 'John'); // Stores data in localStorage
+        console.log(localStorage.getItem('name')); // Output: John
+        localStorage.removeItem('name'); // Removes the 'name' item from localStorage
+        console.log(localStorage.getItem('name')); // Output: null
+        localStorage.clear(); // Clears all localStorage data
+        console.log(localStorage.getItem('name')); // Output: null
+
+        // sessionStorage
+        sessionStorage.setItem('sessionName', 'Jane'); // Stores data in sessionStorage
+        console.log(sessionStorage.getItem('sessionName')); // Output: Jane
+        sessionStorage.removeItem('sessionName'); // Removes the 'sessionName' item from sessionStorage
+        console.log(sessionStorage.getItem('sessionName')); // Output: null
+        sessionStorage.clear(); // Clears all sessionStorage data
+        console.log(sessionStorage.getItem('sessionName')); // Output: null
+    </script>
+</body>
+</html>
+

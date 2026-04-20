@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peticion Ajax</title>
+</head>
+<body>
+    <h1>Peticion AJAX</h1>
+
+    <div id="usuarios">
+        <span class="cargando">Cargando...</span>
+    </div>
+
+    <hr>
+    <div id="usuarios2">
+        <span class="cargandoUsuario">Cargando...</span>
+    </div>
+    
+    <script>
+        console.log("Peticiones AJAX");
+
+        // ---------------------- Promesas fetch ----------------------
+        var usuarios = [];
+        var divUsuario = document.querySelector("#usuarios");
+
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then(data => data.json())
+            .then(data => {
+                usuarios=data;
+                console.log(usuarios);
+            })
+        fetch("https://jsonplaceholder.typicode.com/users")
+            .then(function(data) {
+                // convertir datos a JSON
+                return data.json();
+            })
+            .then(users => {
+                usuarios = users;
+                console.log(usuarios);
+
+                usuarios.map(function(user, i) {
+                    let nombre = document.createElement("h3");
+                    nombre.innerHTML = i + " - " + user.name + " " + user.username;
+                    divUsuario.appendChild(nombre);
+                    // quitamos el cargo
+                    document.querySelector(".cargando").style.display = 'none';
+                });
+                console.log(usuarios);
+
+            })
+        
+        // ---------------------- Encadenar Promesas ----------------------
+        var usuarios2 = [];
+        var divUsuario2 = document.querySelector("#usuarios2");
+        var numUsuario = 2;
+
+        realizarPeticionTodosUsuarios()
+            .then(data => data.json())
+            .then(users => {
+                pintarUsuarios(users);
+                return realizarPeticionUsuario(numUsuario);
+            })
+            .then(datosUsuario => datosUsuario.json())
+            .then(usuario => {
+                pintarUsuario(usuario);
+            })
+        
+        function realizarPeticionTodosUsuarios() {
+            return fetch("https://jsonplaceholder.typicode.com/users");
+        }
+        function realizarPeticionUsuario(numUsuario) {
+            return fetch("https://jsonplaceholder.typicode.com/users/" + numUsuario.toString());
+        }
+        function pintarUsuarios(usuarios) {
+            usuarios.map(function(user, i) {
+                let nombre = document.createElement("h3");
+                nombre.innerHTML = i + " - " + user.name + " " + user.username;
+                divUsuario2.appendChild(nombre);
+                document.querySelector(".cargando").style.display = 'none';
+            })
+        }
+        function pintarUsuario(usuario) {
+            console.log('usuario: ' + usuario);
+            let nombre = document.createElement("h4");
+            nombre.innerHTML = usuario.name + " " + usuario.username;
+            divUsuario2.appendChild(nombre);
+            document.querySelector(".cargando").style.display = 'none';
+        }
+
+        // ---------------------- Capturar Errores ----------------------
+        peticionErronea()
+            .then(data => data.json())
+            .catch(error => {
+                alert("El servicio no esta disponible");
+            })
+        function peticionErronea() {
+            return fetch("https:www.iarbaiza.com");
+        }
+    </script>
+</body>
+</html>

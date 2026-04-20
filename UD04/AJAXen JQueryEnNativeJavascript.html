@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JQuery y Javascript Nativo</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+</head>
+<body>
+    <h1>JQuery y Javascript Nativo</h1>
+    <hr>
+    <h2 id="cabecera">Texto</h2>
+    <hr>
+
+    <script>
+        var datos
+        var url = 'https://api.covid19api.com/country';
+
+        function pedirDatosOpcionUno() {
+            $.get(url, function(data, status) {
+                console.log("Pedir datos opcion 1");
+                datos = data
+                pintar();
+            })
+        }
+        function pedirDatosOpcionDos() {
+            return new Promise(function(resolve, reject) {
+                $.ajax({
+                    url: url,
+                    success:function (data) {
+                        console.log("Pedir datos opcion 2");
+                        resolve(data);
+                    },
+                    error: function(error) {
+                        reject(error);
+                    }
+                });
+            });
+        }
+        function pintar() {
+            console.log(datos);
+            document.getElementById("cabecera").innerHTML = datos[0].Country;
+        }
+
+        // Cargar JQuery
+        /* $(document).ready(function() {
+
+        }) */
+        //opcion 1
+        pedirDatosOpcionUno();
+        //opcion 2
+        /* pedirDatosOpcionDos()
+            .then(function(data) {
+                datos = data;
+                console.log(datos);
+            })
+            .catch(function(error) {
+                console.log(error);
+            }) */
+    </script>
+</body>
+</html>

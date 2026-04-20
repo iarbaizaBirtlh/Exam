@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector JQuery</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Pruebas JQuery</h1>
+
+    <h3>Selector ID</h3>
+    <p id="parrafo1">Parrafo 1</p>
+    <p id="parrafo2">Parrafo 2</p>
+
+    <hr>
+    <h3>Selector Clase</h3>
+    <p id="parrafo3" class="parrafo">Parrafo 3</p>
+    <p id="parrafo4" class="parrafo">Parrafo 4</p>
+
+    <hr>
+    <h3>Selector Etiqueta</h3>
+
+    <hr>
+    <h3>Selector Atributo</h3>
+    <ul>
+        <li><a href="https://www.google.com" title="Google"> Google </a></li>
+        <li><a href="https://www.w3schools.com" title="w3schools"> W3 School </a></li>
+    </ul>
+    
+    <script>
+        $(document).ready(function() {
+            console.log("JQuery Cargado correctamente!");
+        
+            // Selecctor ID
+            var parrafo = $("#parrafo1");       // Selecciona el parrafo con id "parrafo1"
+            console.log(parrafo);
+            parrafo.css("background", "red")
+
+            // Selector Clase
+            var parrafosClass = $(".parrafo");  // Selecciona los parrafos con clase "parrafo"
+            console.log(parrafosClass.eq(1));   // eq(1) -> Selecciona el segundo elemento del array
+            parrafosClass.css("border", "5px dashed black");
+
+            // Selector Etiqueta
+            var todosParrafos = $("p");     // Selecciona todos los parrafos
+            console.log(todosParrafos);
+
+            // Selector Atributo
+            $('[title=Google]').css("background", "blue");      // Afecta a Google
+            $('[title=w3schools]').css("background", "yellow"); // Afecta a w3schools
+        });
+    </script>
+</body>
+</html>
